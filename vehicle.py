@@ -1,7 +1,0 @@
-import pygame
-import math
-
-
-        
-        
-        
