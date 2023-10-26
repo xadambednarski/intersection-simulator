@@ -1,34 +1,33 @@
-import random
-from traffic_lights import TrafficLight, State
-from intersection import Intersection
 import logging
+import random
 from datetime import datetime
-from car import Direction 
-from constants import RANDOM_SEED, SIM_TIME
 
-logging.basicConfig(filename='logs.log', encoding='utf-8', level=logging.DEBUG)
+from car import Direction
+from constants import RANDOM_SEED
+from intersection import Intersection
+from traffic_lights import State, TrafficLight
 
 
 def setup():
-    light_ns = TrafficLight(State.GREEN, "NS", [Direction.STRAIGHT, Direction.RIGHT])
-    light_sn = TrafficLight(State.GREEN, "SN", [Direction.STRAIGHT, Direction.RIGHT])
-    light_we = TrafficLight(State.RED, "WE", [Direction.STRAIGHT, Direction.RIGHT])
-    light_ew = TrafficLight(State.RED, "EW", [Direction.STRAIGHT, Direction.RIGHT])
-    light_sw = TrafficLight(State.RED, "SW", [Direction.LEFT])
-    light_wn = TrafficLight(State.RED, "WN", [Direction.LEFT])
-    light_ne = TrafficLight(State.RED, "NE", [Direction.LEFT])
-    light_es = TrafficLight(State.RED, "ES", [Direction.LEFT])
-    lights = [light_ns, light_sn, light_we, light_ew, light_wn, light_es, light_sw, light_ne]
+    lights = [
+        TrafficLight(State.GREEN, "NS", [Direction.STRAIGHT, Direction.RIGHT]),
+        TrafficLight(State.GREEN, "SN", [Direction.STRAIGHT, Direction.RIGHT]),
+        TrafficLight(State.RED, "WE", [Direction.STRAIGHT, Direction.RIGHT]),
+        TrafficLight(State.RED, "EW", [Direction.STRAIGHT, Direction.RIGHT]),
+        TrafficLight(State.RED, "SW", [Direction.LEFT]),
+        TrafficLight(State.RED, "WN", [Direction.LEFT]),
+        TrafficLight(State.RED, "NE", [Direction.LEFT]),
+        TrafficLight(State.RED, "ES", [Direction.LEFT]),
+    ]
     intersection = Intersection(RANDOM_SEED, lights)
-    now = datetime.now().strftime("%d.%m.%Y %H:%m:%S")
-    logging.info("%s - Intersection simulation started", now)
+    logging.info("Intersection simulation started")
     intersection.run()
-    
-    now = datetime.now().strftime("%d.%m.%Y %H:%m:%S")
-    logging.info("%s - Intersection simulation ended", now)
+
+    logging.info("Intersection simulation finished - sim time:%d", intersection.run_time)
     for light in lights:
         logging.info("Cars passed on %s: %d", light.lane, light.total_cars)
-
+        logging.info("Longest queue on %s: %d", light.lane, light.longest_queue)
+    logging.info("Total cars on intersection: %s", intersection.car_count)
 
 random.seed(RANDOM_SEED)
 setup()
