@@ -7,7 +7,7 @@ class Direction(str, Enum):
     LEFT = 2
     RIGHT = 3
 
-
 @dataclass
-class Car:
+class Vehicle:
     id: int
+    direction: Direction

@@ -1,0 +1,35 @@
+{
+    "random_seed": 1337,
+    "vehicles_flow" : {
+        "NS": 512,
+        "NW": 48,
+        "SN": 523,
+        "SE": 36,
+        "WE": 319,
+        "WS": 28,
+        "EW": 288,
+        "EN": 41,
+        "WN": 59,
+        "ES": 36,
+        "SW": 120,
+        "NE": 139
+    },
+    "green_lights": {
+        "traffic_lights_1": 35,
+        "traffic_lights_2": 31, 
+        "traffic_lights_3": 15, 
+        "traffic_lights_4": 11
+    },
+    "vps": 2,
+    "intergreen": [2, 1],
+    "sim_time": 3600
+}
+
+
+
+
+
+
+
+
+
