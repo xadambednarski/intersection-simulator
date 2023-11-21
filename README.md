@@ -24,13 +24,10 @@ To use the Two-Way Signalized Intersection Simulator, follow these steps:
 1. Clone the repository to your local machine.
    ```bash
    git clone https://github.com/xadambednarski/intersection-simulator.git
-2. Install the required dependencies.
-    ```bash
-    pip install -r requirements.txt
-3. Run the simulator.
+2. Run the simulator.
     ```bash
     python simulator.py
-4. User's interface can be accessed via ```sim_parameters.json``` and ```logs.log```.
+3. User's interface can be accessed via ```sim_parameters.json``` and ```logs.log```.
 ## Contribution Guidelines
 
 We welcome contributions to enhance the simulator's functionality, improve code quality, or fix issues. Please refer to the [contribution guidelines](CONTRIBUTING.md) for more details.
