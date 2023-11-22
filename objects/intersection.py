@@ -5,6 +5,7 @@ from objects.traffic_lights import State
 
 logging.basicConfig(format="%(message)s", filename="logs.log", level=logging.DEBUG)
 
+
 class Intersection:
     def __init__(
         self,
@@ -14,7 +15,7 @@ class Intersection:
         sim_time: int,
         lights: list,
         vps: int,
-        random_seed: int
+        random_seed: int,
     ):
         self.lights = lights
         self.sim_time = sim_time
@@ -32,7 +33,6 @@ class Intersection:
         self.cycle = self.create_cycle()
         self.current_phase = self.cycle[0]
         self.cycle_flow = {}
-        
 
     def run(self):
         while self.sim_time > self.run_time:
@@ -54,9 +54,13 @@ class Intersection:
                         try:
                             lane_direction
                             try:
-                                light.cycle_vehicle_count[self.total_cycle_num][lane_direction] += 1
+                                light.cycle_vehicle_count[self.total_cycle_num][
+                                    lane_direction
+                                ] += 1
                             except:
-                                light.cycle_vehicle_count[self.total_cycle_num][lane_direction] = 1
+                                light.cycle_vehicle_count[self.total_cycle_num][
+                                    lane_direction
+                                ] = 1
                         except:
                             pass
 
@@ -69,7 +73,6 @@ class Intersection:
                 vehicle = Vehicle(self.total_vehicle_count, direction)
                 light.queue.put(vehicle)
                 self.total_vehicle_count += 1
-        
 
     def monitor_phase(self):
         if self.phase_time < self.current_phase[1] - 1:
@@ -147,15 +150,15 @@ class Intersection:
         )
         return {
             0: [phase_0, self.green_lights[0]],
-            1: [phase_0_to_1, self.intergreen[0]-1],
+            1: [phase_0_to_1, self.intergreen[0] - 1],
             2: [phase_0_to_1_2, self.intergreen[1]],
             3: [phase_1, self.green_lights[1]],
-            4: [phase_1_to_2, self.intergreen[0]-1],
+            4: [phase_1_to_2, self.intergreen[0] - 1],
             5: [phase_1_to_2_2, self.intergreen[1]],
             6: [phase_2, self.green_lights[2]],
-            7: [phase_2_to_3, self.intergreen[0]-1],
+            7: [phase_2_to_3, self.intergreen[0] - 1],
             8: [phase_2_to_3_2, self.intergreen[1]],
             9: [phase_3, self.green_lights[3]],
-            10: [phase_3_to_0, self.intergreen[0]-1],
+            10: [phase_3_to_0, self.intergreen[0] - 1],
             11: [phase_3_to_0_2, self.intergreen[1]],
         }

@@ -12,17 +12,28 @@ class State(Enum):
 
 
 class TrafficLight:
-    def __init__(self, state: State, lanes: list, queue:Queue):
+    def __init__(self, state: State, lanes: list, queue: Queue):
         self.lanes = lanes
         self.state = state
         self.queue = queue
         self.cycle_vehicle_count = defaultdict(dict)
         self.longest_queue = 0
-            
+
     def check_direction(self):
-        lane_to_direction = {"NS": Direction.STRAIGHT, "SN": Direction.STRAIGHT, "WE": Direction.STRAIGHT, "EW": Direction.STRAIGHT,
-                     "NW": Direction.RIGHT, "SE": Direction.RIGHT, "WS": Direction.RIGHT, "EN": Direction.RIGHT,
-                     "SW": Direction.LEFT, "WN": Direction.LEFT, "NE": Direction.LEFT, "ES": Direction.LEFT}
+        lane_to_direction = {
+            "NS": Direction.STRAIGHT,
+            "SN": Direction.STRAIGHT,
+            "WE": Direction.STRAIGHT,
+            "EW": Direction.STRAIGHT,
+            "NW": Direction.RIGHT,
+            "SE": Direction.RIGHT,
+            "WS": Direction.RIGHT,
+            "EN": Direction.RIGHT,
+            "SW": Direction.LEFT,
+            "WN": Direction.LEFT,
+            "NE": Direction.LEFT,
+            "ES": Direction.LEFT,
+        }
         return lane_to_direction
 
     def check_longest_queue(self):

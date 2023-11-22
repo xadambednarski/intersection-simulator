@@ -40,7 +40,16 @@ def setup(conf_file):
     )
     return intersection, random_seed, vehicles_flow, gl, intergreen, vps, sim_time
 
-def log_stats(intersection: Intersection, random_seed: int, vehicles_num: dict, gl: dict, intergreen: list, vps: int, sim_time: int):
+
+def log_stats(
+    intersection: Intersection,
+    random_seed: int,
+    vehicles_num: dict,
+    gl: dict,
+    intergreen: list,
+    vps: int,
+    sim_time: int,
+):
     logging.info(
         "%s - Intersection simulation started with parameters given by user:\n\nSimulation time: %d\n\nSeed: %d\n\nGreen light time on lanes:\n\nNS/SN: %s\n\nWE/EW: %s\n\nSW/WN: %s\n\nNE/ES: %s\n\nIntergreen lights time:\n\nYellow: %d\n\nRed + Yellow: %d\n\nCapacity per second: %d\n",
         dt.datetime.now(),
@@ -52,14 +61,15 @@ def log_stats(intersection: Intersection, random_seed: int, vehicles_num: dict, 
         gl[3],
         intergreen[0],
         intergreen[1],
-        vps
+        vps,
     )
     for lane in vehicles_num:
-        logging.info(
-        "Vehicle flow on lane %s: %d\n", lane, vehicles_num[lane])
+        logging.info("Vehicle flow on lane %s: %d\n", lane, vehicles_num[lane])
 
     logging.info(
-        "%s - Intersection simulation finished - sim time: %d\n", dt.datetime.now(), intersection.run_time
+        "%s - Intersection simulation finished - sim time: %d\n",
+        dt.datetime.now(),
+        intersection.run_time,
     )
     for light in intersection.lights:
         for lane in light.lanes:
@@ -75,7 +85,9 @@ def log_stats(intersection: Intersection, random_seed: int, vehicles_num: dict, 
                 sum_cars,
                 light.longest_queue,
                 light.get_avg_vehicles_flow(lane, intersection.total_cycle_num),
-                get_desired_vehicles_flow(vehicles_num[lane], intersection.total_cycle_num),
+                get_desired_vehicles_flow(
+                    vehicles_num[lane], intersection.total_cycle_num
+                ),
             )
     logging.info(
         "Overall intersection statistics:\nTotal number of vehicles: %d\nTotal number of cycles: %d",
@@ -83,17 +95,18 @@ def log_stats(intersection: Intersection, random_seed: int, vehicles_num: dict, 
         intersection.total_cycle_num,
     )
 
+
 def get_desired_vehicles_flow(vehicles_flow, cycles_num):
     return vehicles_flow / cycles_num
 
 
 if __name__ == "__main__":
     try:
-        intersection, seed, vehicles_flow, gl, intergreen, vps, sim_time = setup("sim_parameters.json")
+        intersection, seed, vehicles_flow, gl, intergreen, vps, sim_time = setup(
+            "sim_parameters.json"
+        )
         intersection.run()
         log_stats(intersection, seed, vehicles_flow, gl, intergreen, vps, sim_time)
     except Exception as e:
         logging.info(f"Error info: {e}")
         raise ValueError
-
-

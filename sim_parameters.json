@@ -1,6 +1,6 @@
 {
     "random_seed": 1337,
-    "vehicles_flow" : {
+    "vehicles_flow": {
         "NS": 512,
         "NW": 48,
         "SN": 523,
@@ -15,21 +15,12 @@
         "NE": 139
     },
     "green_lights": {
-        "traffic_lights_1": 35,
-        "traffic_lights_2": 31, 
-        "traffic_lights_3": 15, 
-        "traffic_lights_4": 11
+        "1": 35,
+        "2": 31,
+        "3": 15,
+        "4": 11
     },
     "vps": 2,
     "intergreen": [2, 1],
     "sim_time": 3600
 }
-
-
-
-
-
-
-
-
-
