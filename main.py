@@ -51,7 +51,7 @@ def log_stats(
     sim_time: int,
 ):
     logging.info(
-        "%s - Intersection simulation started with parameters given by user:\n\nSimulation time: %d\n\nSeed: %d\n\nGreen light time on lanes:\n\nNS/SN: %s\n\nWE/EW: %s\n\nSW/WN: %s\n\nNE/ES: %s\n\nIntergreen lights time:\n\nYellow: %d\n\nRed + Yellow: %d\n\nCapacity per second: %d\n",
+        "%s - Intersection simulation started with parameters given by user:\nSimulation time: %d\nSeed: %d\nGreen light time on lanes:\nNS/SN: %s\nWE/EW: %s\nSW/WN: %s\nNE/ES: %s\nIntergreen lights time:\nYellow: %d\nRed + Yellow: %d\nCapacity per second: %d",
         dt.datetime.now(),
         sim_time,
         random_seed,
@@ -63,9 +63,10 @@ def log_stats(
         intergreen[1],
         vps,
     )
+    logging.info("Vehicle flow on lanes:")
     for lane in vehicles_num:
-        logging.info("Vehicle flow on lane %s: %d\n", lane, vehicles_num[lane])
-
+        logging.info("%s: %d", lane, vehicles_num[lane])
+    logging.info("-------------------------------------------------------------------------------------------------------")
     logging.info(
         "%s - Intersection simulation finished - sim time: %d\n",
         dt.datetime.now(),
