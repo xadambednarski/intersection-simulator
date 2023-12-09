@@ -1,17 +1,16 @@
 import logging
-import random
 import datetime as dt
 import json
 from objects.intersection import Intersection
 from queue import Queue
-import sys
 from objects.traffic_lights import State, TrafficLight
 
 
 logging.basicConfig(format="%(message)s", filename="logs.log", level=logging.DEBUG)
 
 
-def setup(conf_file):
+def setup(conf_file: str) -> tuple:
+    """Reading simulation parameters, initialilzating Traffic Lights and Intersection objects"""
     with open(conf_file, "r") as f:
         params = json.load(f)
         vehicles_flow = params["vehicles_flow"]
@@ -38,7 +37,7 @@ def setup(conf_file):
     intersection = Intersection(
         vehicles_flow, gl, intergreen, sim_time, lights, vps, random_seed
     )
-    return intersection, random_seed, vehicles_flow, gl, intergreen, vps, sim_time
+    return (intersection, random_seed, vehicles_flow, gl, intergreen, vps, sim_time)
 
 
 def log_stats(
@@ -50,8 +49,12 @@ def log_stats(
     vps: int,
     sim_time: int,
 ):
+    """Formatting all gathered data and passing it to output file"""
     logging.info(
-        "%s - Intersection simulation started with parameters given by user:\nSimulation time: %d\nSeed: %d\nGreen light time on lanes:\nNS/SN: %s\nWE/EW: %s\nSW/WN: %s\nNE/ES: %s\nIntergreen lights time:\nYellow: %d\nRed + Yellow: %d\nCapacity per second: %d",
+        "%s - Intersection simulation started with parameters given by"
+        " user:\nSimulation time: %d\nSeed: %d\nGreen light time on"
+        " lanes:\nNS/SN/SE/NW: %s\nWE/EW/EN\WS: %s\nSW/WN: %s\nNE/ES: %s\nIntergreen"
+        " lights time:\nYellow: %d\nRed + Yellow: %d\nCapacity per second: %d",
         dt.datetime.now(),
         sim_time,
         random_seed,
@@ -66,7 +69,7 @@ def log_stats(
     logging.info("Vehicle flow on lanes:")
     for lane in vehicles_num:
         logging.info("%s: %d", lane, vehicles_num[lane])
-    logging.info("-------------------------------------------------------------------------------------------------------")
+    logging.info("--------------------------------------------")
     logging.info(
         "%s - Intersection simulation finished - sim time: %d\n",
         dt.datetime.now(),
@@ -81,7 +84,9 @@ def log_stats(
                 except:
                     continue
             logging.info(
-                "Statistics for lane %s:\nVehicles passed: %d\nLongest queue: %d\nAverage number of vehicles crossing the intersection per cycle: %f\nDesired vehicles flow per cycle: %f\n",
+                "Statistics for lane %s:\nVehicles passed: %d\nLongest queue:"
+                " %d\nAverage number of vehicles crossing the intersection per cycle:"
+                " %f\nDesired vehicles flow per cycle: %f\n",
                 lane,
                 sum_cars,
                 light.longest_queue,
@@ -91,13 +96,15 @@ def log_stats(
                 ),
             )
     logging.info(
-        "Overall intersection statistics:\nTotal number of vehicles: %d\nTotal number of cycles: %d",
+        "Overall intersection statistics:\nTotal number of vehicles: %d\nTotal number"
+        " of cycles: %d\n",
         intersection.total_vehicle_count,
         intersection.total_cycle_num,
     )
 
 
-def get_desired_vehicles_flow(vehicles_flow, cycles_num):
+def get_desired_vehicles_flow(vehicles_flow, cycles_num) -> float:
+    """Calculating desired flow, based on number of cycles (output value) and flow of vehicles (given in parameter)"""
     return vehicles_flow / cycles_num
 
 
@@ -109,5 +116,5 @@ if __name__ == "__main__":
         intersection.run()
         log_stats(intersection, seed, vehicles_flow, gl, intergreen, vps, sim_time)
     except Exception as e:
-        logging.info(f"Error info: {e}")
+        logging.info(f"Error info: {e}\n")
         raise ValueError

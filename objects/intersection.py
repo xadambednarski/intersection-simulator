@@ -7,6 +7,8 @@ logging.basicConfig(format="%(message)s", filename="logs.log", level=logging.DEB
 
 
 class Intersection:
+    """Class of intersection system, which runs all simulation' events and monitores global data for intersection"""
+
     def __init__(
         self,
         vehicles_flow: dict,
@@ -35,6 +37,7 @@ class Intersection:
         self.cycle_flow = {}
 
     def run(self):
+        """Organizing sequence of simulation events"""
         while self.sim_time > self.run_time:
             self.spawn_vehicle()
             self.move_vehicles()
@@ -42,9 +45,14 @@ class Intersection:
             self.run_time += 1
 
     def move_vehicles(self):
+        """Organizing move of vehicle objects on every lane of every traffic lights objects"""
         for index, light in enumerate(self.lights):
             light.check_longest_queue()
-            if self.current_phase[0][index] == State.GREEN and light.queue.qsize() > 0:
+            if (
+                self.current_phase[0][index] == State.GREEN
+                and self.current_phase[1] > 0
+                and light.queue.qsize() > 0
+            ):
                 for _ in range(self.vps):
                     if light.queue.qsize() > 0:
                         vehicle = light.queue.get()
@@ -65,6 +73,7 @@ class Intersection:
                             pass
 
     def spawn_vehicle(self):
+        """Creating vehicle objects on every lane of every traffic lights based on initialized traffic lights programme"""
         for lane in self.vehicles_flow:
             spawn_prob = self.vehicles_flow[lane] / 3600
             if spawn_prob > random.random():
@@ -75,6 +84,7 @@ class Intersection:
                 self.total_vehicle_count += 1
 
     def monitor_phase(self):
+        """Monitoring changing of phases and cycles of traffic lights programme"""
         if self.phase_time < self.current_phase[1] - 1:
             self.phase_time += 1
         else:
@@ -89,6 +99,7 @@ class Intersection:
             self.phase_time = 0
 
     def create_cycle(self) -> dict:
+        """Initializing traffic lights programme based on given parameters"""
         phase_0 = [State.GREEN, State.GREEN] + [
             State.RED for _ in range(len(self.lights) - 2)
         ]
